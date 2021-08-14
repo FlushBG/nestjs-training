@@ -9,6 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
@@ -21,7 +22,13 @@ import { TasksService } from './tasks.service';
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
-  constructor(private tasksService: TasksService) {}
+  constructor(
+    private tasksService: TasksService,
+    private configService: ConfigService,
+  ) {
+    const testValue = this.configService.get('TEST_VALUE');
+    console.log(testValue);
+  }
 
   @Get()
   getTasks(
